@@ -5,6 +5,8 @@ import { addHours } from "date-fns";
 import { localizer } from "../../helpers/localizer";
 import { getMessages } from "../../helpers/getMessages";
 import { useState } from "react";
+import { CalendarEvent } from "../components/CalendarEvent";
+import { CalendarModal } from "../components/CalendarModal";
 
 const myEventsList = [
   {
@@ -20,13 +22,18 @@ const myEventsList = [
   },
 ];
 
-const eventProp = ({ title, notes, user, isSelected }) => {
-  console.log({ title, notes, user, isSelected });
-};
-
 export const CalendarPage = () => {
+  // Lógica necesaria para cambiar de vista (Month, Week, Day, Agenda)
   const [currentView, setCurrentView] = useState(Views.MONTH);
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const onDoubleClick = (event) => {
+    console.log({ onDoubleClick: event });
+  };
+
+  const onClick = (event) => {
+    console.log({ onClick: event });
+  };
 
   return (
     <>
@@ -39,13 +46,17 @@ export const CalendarPage = () => {
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
         messages={getMessages()}
-        views={["month", "week", "day", "agenda"]}
-        eventPropGetter={eventProp}
         date={currentDate}
         view={currentView}
         onView={setCurrentView}
         onNavigate={setCurrentDate}
+        components={{
+          event: CalendarEvent,
+        }}
+        onDoubleClickEvent={onDoubleClick}
+        onSelectEvent={onClick}
       />
+      <CalendarModal />
     </>
   );
 };
