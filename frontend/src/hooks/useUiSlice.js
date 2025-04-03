@@ -3,6 +3,7 @@ import { closeModal, openModal } from "../store/ui/uiSlice";
 
 export const useUiSlice = () => {
   const dispatch = useDispatch();
+
   const { isOpenModal } = useSelector((state) => state.ui);
 
   const onOpenModal = () => {
