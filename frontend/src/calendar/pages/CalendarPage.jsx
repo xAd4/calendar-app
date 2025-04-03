@@ -7,6 +7,7 @@ import { getMessages } from "../../helpers/getMessages";
 import { useState } from "react";
 import { CalendarEvent } from "../components/CalendarEvent";
 import { CalendarModal } from "../components/CalendarModal";
+import { useUiSlice } from "../../hooks/useUiSlice";
 
 const myEventsList = [
   {
@@ -24,15 +25,13 @@ const myEventsList = [
 
 export const CalendarPage = () => {
   // Lógica necesaria para cambiar de vista (Month, Week, Day, Agenda)
+  const { onOpenModal } = useUiSlice();
   const [currentView, setCurrentView] = useState(Views.MONTH);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const onDoubleClick = (event) => {
+    onOpenModal();
     console.log({ onDoubleClick: event });
-  };
-
-  const onClick = (event) => {
-    console.log({ onClick: event });
   };
 
   return (
@@ -54,7 +53,6 @@ export const CalendarPage = () => {
           event: CalendarEvent,
         }}
         onDoubleClickEvent={onDoubleClick}
-        onSelectEvent={onClick}
       />
       <CalendarModal />
     </>
