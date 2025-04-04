@@ -11,10 +11,10 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $events = Event::all();
+            $events = $request->user()->notes()->get();
             return response()->json(["ok" => true, "events" => $events], 200);
         } catch (\Throwable $th) {
             return response()->json(["ok" => false, "message" => $th->getMessage()], 400);
@@ -75,6 +75,11 @@ class EventController extends Controller
 
         try {
             $event = Event::findOrFail($id);
+
+            if ($event->user_id !== $request->user()->id) {
+                return response()->json(["ok" => false, "message" => "Unauthorized"], 403);
+            }
+
             $event->update([
                 "title" => $validate["title"],
                 "notes" => $validate["notes"],
@@ -90,10 +95,15 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(Request $request, string $id): JsonResponse
     {
         try {
             $event = Event::findOrFail($id);
+
+            if ($event->user_id !== $request->user()->id) {
+                return response()->json(["ok" => false, "message" => "Unauthorized"], 403);
+            }
+
             $event->delete();
             return response()->json(["ok" => true, "message" => "Event deleted successfully"], 200);
         } catch (\Throwable $th) {

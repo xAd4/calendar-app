@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function notes()
     {
-        $this->hasMany(Event::class);
+        return $this->hasMany(Event::class);
     }
 }
