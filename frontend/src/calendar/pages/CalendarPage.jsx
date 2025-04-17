@@ -8,6 +8,7 @@ import { CalendarEvent } from "../components/CalendarEvent";
 import { CalendarModal } from "../components/CalendarModal";
 import { useUiSlice } from "../../hooks/useUiSlice";
 import { useCalendarSlice } from "../../hooks/useCalendarSlice";
+import { FabAddNew } from "../components/FabAddNew";
 
 export const CalendarPage = () => {
   // Lógica necesaria para cambiar de vista (Month, Week, Day, Agenda)
@@ -47,6 +48,7 @@ export const CalendarPage = () => {
         onSelectEvent={onSelect}
       />
       <CalendarModal />
+      <FabAddNew />
     </>
   );
 };
